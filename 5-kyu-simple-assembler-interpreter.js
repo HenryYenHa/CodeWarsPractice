@@ -15,6 +15,41 @@
 // Also, every inc/dec/jnz on a register will always be preceeded by a mov on the register first, so you don't need to worry about uninitialized registers.
 
 function simple_assembler(program) {
-  /* return a dictionary with the registers */
-  return {};
+  let i = 0;
+  let returnObject = {};
+  while (i < program.length) {
+    const instruction = program[i].split(" ");
+    switch (instruction[0]) {
+      case "mov":
+        if (isNaN(instruction[2])) {
+          returnObject[instruction[1]] = returnObject[instruction[2]];
+        } else {
+          returnObject[instruction[1]] = parseInt(instruction[2]);
+        }
+        i++;
+        break;
+      case "inc":
+        returnObject[instruction[1]] =
+          parseInt(returnObject[instruction[1]]) + 1;
+        i++;
+        break;
+      case "dec":
+        returnObject[instruction[1]] =
+          parseInt(returnObject[instruction[1]]) - 1;
+        i++;
+        break;
+      case "jnz":
+        if (returnObject[instruction[1]] == 0) {
+          i++;
+        } else {
+          i = i + parseInt(instruction[2]);
+        }
+        break;
+      default:
+        console.log("Error: Unknown command");
+        break;
+    }
+  }
+  return returnObject;
 }
+simple_assembler(["mov a 5", "inc a", "dec a", "dec a", "jnz a -1", "inc a"]);
