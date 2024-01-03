@@ -10,7 +10,7 @@ function solution(numbers) {
   for (num of numbers) {
     for (factor of factorList) {
       if (factorList.length == 1) {
-        console.log("primedOut");
+        console.log("primedOutnow");
         return numbers.length;
       }
       if (num % factor != 0) {
